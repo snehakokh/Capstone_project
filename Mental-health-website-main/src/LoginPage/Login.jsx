@@ -40,9 +40,9 @@ const Login = () => {
   };
 
   return (
-    <div className="justify-center bg-[#bcccdc] flex w-full gap-[10px] h-[673px] mt-[5rem]">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[#bcccdc]">
       <ToastContainer />
-      <div className="lg:absolute lg:mt-10 lg:h-[563px] lg:w-[400px] rounded-[10px] flex flex-col items-center justify-center lg:bg-white text-black">
+      <div className="w-full max-w-md bg-white rounded-[10px] p-6 sm:p-8 md:p-10 flex flex-col items-center text-black shadow-md">
         <h1 className="text-2xl text-center">
           Welcome back. Your well-being
           <p className="text-2xl">starts here.</p>
@@ -53,7 +53,7 @@ const Login = () => {
         >
           <Input
             type="text"
-            className="border-[1px] rounded-[10px] w-[300px] h-[40px] p-2 mt-4"
+            className="border rounded-[10px] w-full h-[40px] p-2 mt-4"
             id="username"
             {...register("username", {
               required: "Username is required",
@@ -66,7 +66,7 @@ const Login = () => {
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
-              className="border-[1px] rounded-[10px] w-[300px] h-[40px] p-2 mt-4"
+              className="border rounded-[10px] w-full h-[40px] p-2 mt-4"
               id="password"
               {...register("password", {
                 required: "Password is required",

@@ -55,7 +55,7 @@ const Home = () => {
       </div>
 
       {/* Quiz Section */}
-      <div className="flex flex-col items-center text-center w-full px-4 py-12 md:px-8 md:py-16 bg-[#bcccdc] lg:bg-white">
+      <div className="flex flex-col items-center text-center w-full px-4 py-12 md:px-8 md:py-16  lg:bg-white">
         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold max-w-[800px]">
           Your journey to a brighter mind starts here.
         </h2>

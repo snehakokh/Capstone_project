@@ -49,22 +49,22 @@ const Signup = () => {
   };
 
   return (
-    <div className="justify-center bg-[#bcccdc] flex w-full gap-[10px] h-[673px] mt-[5rem]">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-[#bcccdc]">
       <ToastContainer />
-      <div className="lg:absolute lg:mt-10 lg:h-[563px] lg:w-[400px] rounded-[10px] flex flex-col items-center justify-center lg:bg-white text-black">
-        <h1 className="text-2xl text-center">
+      <div className="w-full max-w-md bg-white rounded-[10px] p-6 sm:p-8 md:p-10 flex flex-col items-center text-black shadow-md">
+        <h1 className="text-2xl text-center font-semibold">
           Create an account
-          <p className="text-2xl">Join us today.</p>
+          <p className="text-2xl mt-1">Join us today.</p>
         </h1>
 
         <form
           onSubmit={handleSubmit(sendDataToApi)}
-          className="flex flex-col gap-[5px]"
+          className="flex flex-col w-full gap-3 mt-6"
         >
           {/* Username Field */}
           <Input
             type="text"
-            className="border-[1px] rounded-[10px] w-[300px] h-[40px] p-2 mt-4"
+            className="border rounded-[10px] w-full h-[40px] p-2"
             id="username"
             placeholder="Username"
             {...register("username", {
@@ -80,7 +80,7 @@ const Signup = () => {
           {/* Email Field */}
           <Input
             type="email"
-            className="border-[1px] rounded-[10px] w-[300px] h-[40px] p-2 mt-4"
+            className="border rounded-[10px] w-full h-[40px] p-2"
             id="email"
             placeholder="Email"
             {...register("email", {
@@ -99,7 +99,7 @@ const Signup = () => {
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
-              className="border-[1px] rounded-[10px] w-[300px] h-[40px] p-2 mt-4"
+              className="border rounded-[10px] w-full h-[40px] p-2"
               id="password"
               placeholder="Password"
               {...register("password", {
@@ -108,7 +108,7 @@ const Signup = () => {
             />
             <button
               type="button"
-              className="absolute right-3 top-10 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
               onClick={handlePasswordVisibility}
             >
               <img
@@ -127,7 +127,7 @@ const Signup = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="bg-[#f6ca56] mt-10 w-[300px] h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300"
+            className="bg-[#f6ca56] mt-6 w-full h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300"
           >
             Signup
           </button>
@@ -140,9 +140,9 @@ const Signup = () => {
           </Link>
         </p>
 
-        <hr className="w-[340px] border-black mt-10 border-[1px]" />
+        <hr className="w-full border-black mt-8 border-[1px]" />
 
-        <button className="bg-[#f6ca56] mt-10 w-[300px] h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300">
+        <button className="bg-[#f6ca56] mt-5 w-full h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300">
           Continue with Google
         </button>
       </div>
