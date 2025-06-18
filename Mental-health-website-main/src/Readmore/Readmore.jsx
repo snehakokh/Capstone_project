@@ -14,6 +14,14 @@ const Readmore = () => {
   const [replyContent, setReplyContent] = useState({});
   // State to filter comments by a specific username
   const [filterUser, setFilterUser] = useState(null);
+  // State to track which comment is being edited
+  const [editingCommentId, setEditingCommentId] = useState(null);
+  // State to store the edited comment text
+  const [editedCommentText, setEditedCommentText] = useState("");
+  // State to track which reply is being edited
+  const [editingReplyId, setEditingReplyId] = useState(null);
+  // State to store the edited reply text
+  const [editedReplyText, setEditedReplyText] = useState("");
 
   // Function to add a new comment
   const handleAddComment = () => {
@@ -60,6 +68,100 @@ const Readmore = () => {
     setReplyContent({ ...replyContent, [commentId]: "" });
   };
 
+  // Function to delete a comment
+  const handleDeleteComment = (commentId) => {
+    if (window.confirm("Are you sure you want to delete this comment?")) {
+      setComments((prev) => prev.filter((comment) => comment.id !== commentId));
+    }
+  };
+
+  // Function to start editing a comment
+  const handleStartEditComment = (commentId, currentText) => {
+    setEditingCommentId(commentId);
+    setEditedCommentText(currentText);
+  };
+
+  // Function to save edited comment
+  const handleSaveEditComment = (commentId) => {
+    if (editedCommentText.trim()) {
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.id === commentId
+            ? {
+                ...comment,
+                text: editedCommentText,
+                time: comment.time + " (edited)",
+              }
+            : comment
+        )
+      );
+      setEditingCommentId(null);
+      setEditedCommentText("");
+    }
+  };
+
+  // Function to cancel editing a comment
+  const handleCancelEditComment = () => {
+    setEditingCommentId(null);
+    setEditedCommentText("");
+  };
+
+  // Function to delete a reply
+  const handleDeleteReply = (commentId, replyId) => {
+    if (window.confirm("Are you sure you want to delete this reply?")) {
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.id === commentId
+            ? {
+                ...comment,
+                replies: comment.replies.filter(
+                  (reply) => reply.id !== replyId
+                ),
+              }
+            : comment
+        )
+      );
+    }
+  };
+
+  // Function to start editing a reply
+  const handleStartEditReply = (commentId, replyId, currentText) => {
+    setEditingReplyId(`${commentId}-${replyId}`);
+    setEditedReplyText(currentText);
+  };
+
+  // Function to save edited reply
+  const handleSaveEditReply = (commentId, replyId) => {
+    if (editedReplyText.trim()) {
+      setComments((prev) =>
+        prev.map((comment) =>
+          comment.id === commentId
+            ? {
+                ...comment,
+                replies: comment.replies.map((reply) =>
+                  reply.id === replyId
+                    ? {
+                        ...reply,
+                        text: editedReplyText,
+                        time: reply.time + " (edited)",
+                      }
+                    : reply
+                ),
+              }
+            : comment
+        )
+      );
+      setEditingReplyId(null);
+      setEditedReplyText("");
+    }
+  };
+
+  // Function to cancel editing a reply
+  const handleCancelEditReply = () => {
+    setEditingReplyId(null);
+    setEditedReplyText("");
+  };
+
   // Filter comments if a user is selected
   const filteredComments = filterUser
     ? comments.filter((c) => c.username === filterUser)
@@ -67,7 +169,7 @@ const Readmore = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center bg-[#bcccdc] p-30 ">
+      <div className="flex justify-center items-center bg-[#bcccdc] p-10 ">
         <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-md">
           {/* Blog Title */}
           <h1 className="text-2xl font-bold mb-4">{findarray?.title}</h1>
@@ -149,8 +251,8 @@ const Readmore = () => {
           <p className="text-[#737373] mt-4">{findarray?.end}</p>
 
           {/* Comments Section */}
-          <div className="max-w-3xl w-full p-5 bg-white rounded-lg shadow-2xl border-[1px] mt-5">
-            <div className="mt-1">
+          <div className="max-w-3xl w-full p-6 bg-white rounded-lg shadow-2xl border-[1px] mt-5">
+            <div className="mt-10">
               <h2 className="text-xl font-semibold mb-4">
                 Comments ({filteredComments.length})
               </h2>
@@ -164,27 +266,158 @@ const Readmore = () => {
                 // Loop through each comment
                 filteredComments.map((comment) => (
                   <div key={comment.id} className="mb-6 border-b pb-4">
-                    <p
-                      className="font-bold text-blue-600 cursor-pointer"
-                      onClick={() => setFilterUser(comment.username)}
-                    >
-                      {comment.username}
-                    </p>
-                    <p className="text-gray-700">{comment.text}</p>
-                    <p className="text-sm text-gray-400">{comment.time}</p>
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <p
+                          className="font-bold text-blue-600 cursor-pointer"
+                          onClick={() => setFilterUser(comment.username)}
+                        >
+                          {comment.username}
+                        </p>
+
+                        {/* Comment Text or Edit Input */}
+                        {editingCommentId === comment.id ? (
+                          <div className="mt-2">
+                            <textarea
+                              className="w-full p-2 border rounded"
+                              rows="3"
+                              value={editedCommentText}
+                              onChange={(e) =>
+                                setEditedCommentText(e.target.value)
+                              }
+                            />
+                            <div className="mt-2">
+                              <button
+                                onClick={() =>
+                                  handleSaveEditComment(comment.id)
+                                }
+                                className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm mr-2"
+                              >
+                                Save
+                              </button>
+                              <button
+                                onClick={handleCancelEditComment}
+                                className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 text-sm"
+                              >
+                                Cancel
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-gray-700 mt-1">{comment.text}</p>
+                        )}
+
+                        <p className="text-sm text-gray-400 mt-1">
+                          {comment.time}
+                        </p>
+                      </div>
+
+                      {/* Edit and Delete buttons for comments by currentUser */}
+                      {comment.username === "currentUser" &&
+                        editingCommentId !== comment.id && (
+                          <div className="flex space-x-2 ml-4">
+                            <button
+                              onClick={() =>
+                                handleStartEditComment(comment.id, comment.text)
+                              }
+                              className="text-blue-600 hover:text-blue-800 text-sm"
+                            >
+                              Edit
+                            </button>
+                            <button
+                              onClick={() => handleDeleteComment(comment.id)}
+                              className="text-red-600 hover:text-red-800 text-sm"
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        )}
+                    </div>
 
                     {/* Replies Section */}
                     <div className="ml-6 mt-2">
                       {comment.replies.map((reply) => (
                         <div key={reply.id} className="mb-2 border-l-2 pl-4">
-                          <p
-                            className="font-semibold text-blue-500 cursor-pointer"
-                            onClick={() => setFilterUser(reply.username)}
-                          >
-                            {reply.username}
-                          </p>
-                          <p className="text-gray-700">{reply.text}</p>
-                          <p className="text-sm text-gray-400">{reply.time}</p>
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                              <p
+                                className="font-semibold text-blue-500 cursor-pointer"
+                                onClick={() => setFilterUser(reply.username)}
+                              >
+                                {reply.username}
+                              </p>
+
+                              {/* Reply Text or Edit Input */}
+                              {editingReplyId ===
+                              `${comment.id}-${reply.id}` ? (
+                                <div className="mt-2">
+                                  <textarea
+                                    className="w-full p-2 border rounded"
+                                    rows="2"
+                                    value={editedReplyText}
+                                    onChange={(e) =>
+                                      setEditedReplyText(e.target.value)
+                                    }
+                                  />
+                                  <div className="mt-2">
+                                    <button
+                                      onClick={() =>
+                                        handleSaveEditReply(
+                                          comment.id,
+                                          reply.id
+                                        )
+                                      }
+                                      className="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700 text-sm mr-2"
+                                    >
+                                      Save
+                                    </button>
+                                    <button
+                                      onClick={handleCancelEditReply}
+                                      className="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600 text-sm"
+                                    >
+                                      Cancel
+                                    </button>
+                                  </div>
+                                </div>
+                              ) : (
+                                <p className="text-gray-700 mt-1">
+                                  {reply.text}
+                                </p>
+                              )}
+
+                              <p className="text-sm text-gray-400 mt-1">
+                                {reply.time}
+                              </p>
+                            </div>
+
+                            {/* Edit and Delete buttons for replies by currentUser */}
+                            {reply.username === "currentUser" &&
+                              editingReplyId !==
+                                `${comment.id}-${reply.id}` && (
+                                <div className="flex space-x-2 ml-4">
+                                  <button
+                                    onClick={() =>
+                                      handleStartEditReply(
+                                        comment.id,
+                                        reply.id,
+                                        reply.text
+                                      )
+                                    }
+                                    className="text-blue-600 hover:text-blue-800 text-sm"
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    onClick={() =>
+                                      handleDeleteReply(comment.id, reply.id)
+                                    }
+                                    className="text-red-600 hover:text-red-800 text-sm"
+                                  >
+                                    Delete
+                                  </button>
+                                </div>
+                              )}
+                          </div>
                         </div>
                       ))}
 

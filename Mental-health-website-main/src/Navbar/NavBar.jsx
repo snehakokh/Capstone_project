@@ -5,7 +5,7 @@ function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hasShadow, setHasShadow] = useState(false);
 
-  // Add shadow on scroll
+  // Adds shadow on scroll
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 10) {
@@ -44,8 +44,8 @@ function NavBar() {
             <NavLink to="/therapist">Therapist</NavLink>
             <NavLink to="/quiz">Quiz</NavLink>
             <NavLink to="/aboutus">About</NavLink>
-            <NavLink to="/login">
-              <button className="bg-button1 px-6 py-1 rounded-md">
+            <NavLink to="/signup1">
+              <button className="bg-button1 px-6 py-1 rounded-md transition-transform duration-300 transform hover:scale-110">
                 Get Started
               </button>
             </NavLink>
@@ -55,9 +55,9 @@ function NavBar() {
           <div className="md:hidden">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="text-3xl z-50 relative"
+              className="text-3xl z-50 relative cursor-pointer"
             >
-              {menuOpen ? "✖" : "☰"}
+              {menuOpen ? "╳" : "☰"}
             </button>
           </div>
         </nav>
@@ -81,7 +81,7 @@ function NavBar() {
           <NavLink to="/aboutus" onClick={() => setMenuOpen(false)}>
             About
           </NavLink>
-          <NavLink to="/login" onClick={() => setMenuOpen(false)}>
+          <NavLink to="/signup1" onClick={() => setMenuOpen(false)}>
             <button className="bg-button1 px-6 py-2 rounded-md">
               Get Started
             </button>

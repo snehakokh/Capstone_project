@@ -21,6 +21,8 @@ import Userview from "./UserView/Userview";
 import Userprofile from "./UsreProfile/Userprofile";
 import ProfilePage from "./ProfilePage/Profilepage";
 import ForgotPassword from "./LoginPage/ForgotPassword";
+import SignUpOption from "./SignUp/SignUpOption";
+import TherapistSignUp from "./SignUp/TherapistSignUp";
 
 function App() {
   useEffect(() => {
@@ -50,6 +52,8 @@ function App() {
         <Route path="/userprofile/:id" element={<Userprofile />} />
         <Route path="/profilepage/:id" element={<ProfilePage />} />
         <Route path="/forgotPw" element={<ForgotPassword />} />
+        <Route path="/signup1" element={<SignUpOption />} />
+        <Route path="/signup2" element={<TherapistSignUp />} />
       </Routes>
       <Footer />
       <Copyright />
