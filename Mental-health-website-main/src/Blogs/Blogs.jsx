@@ -19,14 +19,11 @@ const Blogs = () => {
   const [posts, loading, error] = usefetch("http://localhost:3000/post");
 
   return (
-    <div className="bg-[#cbd5e1] min-h-screen py-20 overflow-x-hidden mt-[5rem]">
+    <div className="bg-[#cbd5e1] min-h-screen py-20 overflow-x-hidden mt-[56px]">
       <div className="max-w-7xl mx-auto px-4">
         {/* Page Title */}
-        <h1 className="text-4xl font-bold text-center text-white mb-10">
-          BLOGS
-        </h1>
-        <hr className="border-2 border-white mx-auto mb-8 hidden lg:block" />
-        <p className="text-xl text-white mb-6 ml-4">Top articles</p>
+        <h1 className="text-4xl font-bold text-center mb-10">BLOGS</h1>
+        <p className="text-xl mb-6 ml-4">Top articles</p>
 
         {/* Static Blog Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -56,7 +53,9 @@ const Blogs = () => {
 
         {/* API Fetched Blogs */}
         <div className="mt-10 px-2">
-          <h2 className="text-white text-2xl font-semibold mb-4">Fetched Blogs</h2>
+          <h2 className="text-white text-2xl font-semibold mb-4">
+            Fetched Blogs
+          </h2>
 
           {/* Show loading or error messages */}
           {loading && <p className="text-blue-400">Loading blogs...</p>}

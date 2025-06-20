@@ -49,7 +49,7 @@ const Signup = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 bg-[#bcccdc]">
+    <div className="min-h-screen bg-[#bcccdc] flex items-center justify-center px-4">
       <ToastContainer />
       <div className="w-full max-w-md bg-white rounded-[10px] p-6 sm:p-8 md:p-10 flex flex-col items-center text-black shadow-md">
         <h1 className="text-2xl text-center font-semibold">
@@ -61,7 +61,6 @@ const Signup = () => {
           onSubmit={handleSubmit(sendDataToApi)}
           className="flex flex-col w-full gap-3 mt-6"
         >
-          {/* Username Field */}
           <Input
             type="text"
             className="border rounded-[10px] w-full h-[40px] p-2"
@@ -77,7 +76,6 @@ const Signup = () => {
             </span>
           )}
 
-          {/* Email Field */}
           <Input
             type="email"
             className="border rounded-[10px] w-full h-[40px] p-2"
@@ -95,7 +93,6 @@ const Signup = () => {
             <span className="text-red-500 text-sm">{errors.email.message}</span>
           )}
 
-          {/* Password Field */}
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
@@ -124,7 +121,6 @@ const Signup = () => {
             </span>
           )}
 
-          {/* Submit Button */}
           <button
             type="submit"
             className="bg-[#f6ca56] mt-6 w-full h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300"

@@ -23,6 +23,7 @@ import ProfilePage from "./ProfilePage/Profilepage";
 import ForgotPassword from "./LoginPage/ForgotPassword";
 import SignUpOption from "./SignUp/SignUpOption";
 import TherapistSignUp from "./SignUp/TherapistSignUp";
+import QuizStart from "./Quiz/QuizStart";
 
 function App() {
   useEffect(() => {
@@ -45,6 +46,8 @@ function App() {
         <Route path="/aboutus" element={<AboutUs />} />
         <Route path="/therapist" element={<Therapist />} />
         <Route path="/quiz" element={<Quiz />} />
+        <Route path="/quiz1" element={<QuizStart />} />
+
         <Route path="/ai" element={<Ai />} />
         <Route path="/readmore/:id" element={<Readmore />} />
         <Route path="/createablogs" element={<Createablog />} />

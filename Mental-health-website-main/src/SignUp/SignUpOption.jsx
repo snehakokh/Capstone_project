@@ -3,8 +3,8 @@ import { NavLink } from "react-router-dom";
 
 const SignUpOption = () => {
   return (
-    <div className="pt-16 flex justify-center px-4 bg-[#bcccdc] py-12 min-h-screen overflow-auto">
-      <div className="w-full max-w-xl bg-white shadow-lg rounded-xl p-10 md:p-16 space-y-10">
+    <div className="min-h-screen bg-[#bcccdc] flex items-center justify-center px-4">
+      <div className="w-full max-w-xl bg-white shadow-lg rounded-xl md:p-16 space-y-10">
         <div className="text-center">
           <h2 className="text-3xl font-bold">Who Are You Logging In As?</h2>
           <p className="pt-4 text-base text-gray-700">
@@ -25,7 +25,7 @@ const SignUpOption = () => {
               type="submit"
               className="w-full bg-button1 py-3 rounded-md font-medium hover:opacity-70 transition"
             >
-              * Consultant
+              Consultant
             </button>
           </NavLink>
         </div>

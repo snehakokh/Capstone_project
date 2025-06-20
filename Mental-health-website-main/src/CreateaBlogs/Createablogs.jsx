@@ -19,11 +19,18 @@ const Createablog = () => {
   const [images, setImages] = useState([]);
   const [cancelled, setCancelled] = useState(new Set());
   const [showAllTags, setShowAllTags] = useState(false);
+  const [contentError, setContentError] = useState("");
 
   // Available tags
   const allTags = [
-    "Anxiety", "Depression", "Loneliness", "Grief",
-    "PTSD", "BPD", "Substance Abuse", "Eating Disorder",
+    "Anxiety",
+    "Depression",
+    "Loneliness",
+    "Grief",
+    "PTSD",
+    "BPD",
+    "Substance Abuse",
+    "Eating Disorder",
   ];
   const topTags = allTags.slice(0, 3);
 
@@ -80,6 +87,14 @@ const Createablog = () => {
 
   // Form submission
   const onSubmit = (formData) => {
+    const contentText = contentRef.current?.innerText.trim();
+    if (!contentText) {
+      setContentError("Content is required.");
+      return;
+    } else {
+      setContentError(""); // Clear error if valid
+    }
+
     const payload = new FormData();
     payload.append("title", formData.title);
     payload.append("content", contentRef.current.innerHTML);
@@ -101,7 +116,7 @@ const Createablog = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#bcccdc] flex justify-center items-center p-4 mt-[5rem]  ">
+    <div className="min-h-screen bg-[#bcccdc] flex justify-center items-center p-4 mt-[56px]  ">
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-xl bg-white p-6 rounded-lg shadow"
@@ -118,7 +133,9 @@ const Createablog = () => {
         )}
 
         {/* Image Upload */}
-        <label className="block mt-4 mb-2 font-semibold">Upload Images</label>
+        <label className="block mt-4 mb-2 font-semibold">
+          Upload Images (Optional)
+        </label>
         <div
           {...getRootProps()}
           className={`p-4 border-2 border-dashed rounded cursor-pointer text-center ${
@@ -160,23 +177,44 @@ const Createablog = () => {
           contentEditable
           className="h-40 p-2 border border-gray-300 rounded bg-white overflow-auto"
           spellCheck={false}
-        ></div>
+        />
+        {contentError && <p className="text-sm text-red-500">{contentError}</p>}
 
         {/* Formatting Buttons */}
         <div className="flex gap-3 text-lg mt-2 mb-4">
-          <button type="button" onClick={() => formatText("bold")}>
+          <button
+            className="hover:cursor-pointer"
+            type="button"
+            onClick={() => formatText("bold")}
+          >
             <FaBold />
           </button>
-          <button type="button" onClick={() => formatText("italic")}>
+          <button
+            className="hover:cursor-pointer"
+            type="button"
+            onClick={() => formatText("italic")}
+          >
             <FaItalic />
           </button>
-          <button type="button" onClick={() => formatText("justifyLeft")}>
+          <button
+            className="hover:cursor-pointer"
+            type="button"
+            onClick={() => formatText("justifyLeft")}
+          >
             <TfiAlignLeft />
           </button>
-          <button type="button" onClick={() => formatText("justifyCenter")}>
+          <button
+            className="hover:cursor-pointer"
+            type="button"
+            onClick={() => formatText("justifyCenter")}
+          >
             <TfiAlignCenter />
           </button>
-          <button type="button" onClick={() => formatText("justifyRight")}>
+          <button
+            className="hover:cursor-pointer"
+            type="button"
+            onClick={() => formatText("justifyRight")}
+          >
             <TfiAlignRight />
           </button>
         </div>

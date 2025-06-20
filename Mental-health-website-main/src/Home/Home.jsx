@@ -1,18 +1,15 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HOME } from "../Data/Data"; // Article data
+import { useState } from "react";
 
 const Home = () => {
   const navigate = useNavigate();
-
-  // Navigate to the AI chatbot page
-  const goToChatbot = () => {
-    navigate("/ai");
-  };
+  const [chatOpen, setChatOpen] = useState(false);
 
   // Navigate to the quiz page
   const goToQuiz = () => {
-    navigate("/quiz");
+    navigate("/quiz1");
   };
 
   const goToTherapist = () => {
@@ -26,10 +23,10 @@ const Home = () => {
   };
 
   return (
-    <div className="flex flex-col items-center w-full overflow-x-hidden mt-[5rem]">
+    <div className="flex flex-col items-center w-full overflow-x-hidden pt-[56px]">
       {/* Hero Section */}
       <div
-        className="flex flex-col lg:flex-row-reverse lg:gap-40 items-center justify-center w-full py-12 px-4 gap-6 bg-[#b2c5e5] md:flex-row md:py-16 md:px-8 lg:px-16 max-w-screen overflow-x-hidden"
+        className="flex flex-col lg:flex-row-reverse lg:gap-40 items-center justify-center w-full py-12 px-4 gap-6  bg-[#bcccdc] md:flex-row md:py-16 md:px-8 lg:px-16 max-w-screen overflow-x-hidden"
         data-aos="zoom-out"
         data-aos-duration="500"
         data-aos-once="true"
@@ -102,25 +99,48 @@ const Home = () => {
           ))}
         </div>
       </div>
+      {/* Floating Chat Button */}
+      <button
+        onClick={() => setChatOpen(!chatOpen)}
+        className="fixed bottom-6 right-6 z-40 bg-[#f6ca56] hover:bg-[#e5b945] cursor-pointer p-4 rounded-full shadow-lg"
+      >
+        <img src="bot.png" alt="chatbot" className="w-9" />
+      </button>
 
-      {/* Chatbot Section */}
-      <div className="flex flex-col items-center w-full px-4 py-12 md:px-8 md:py-16 bg-white">
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-center max-w-[800px]">
-          A chatbot with a listening ear for your feelings.
-        </h2>
-        <p className="text-lg md:text-xl mt-4 text-center max-w-[800px]">
-          Share your thoughts and let us help guide you through tough moments.
-        </p>
-        <button
-          onClick={goToChatbot}
-          className="bg-[#f6ca56] hover:bg-[#e5b945] mt-6 w-full max-w-[300px] h-[40px] rounded-[10px]"
-        >
-          Start chatting
-        </button>
-      </div>
-
-      {/* Footer Spacing */}
-      <div className="bg-[#bcccdc] h-20 w-full"></div>
+      {/* Chat Popup */}
+      {chatOpen && (
+        <div className="fixed bottom-5 right-6 z-50 w-80 h-[400px] bg-white rounded-lg shadow-2xl border border-gray-300 flex flex-col overflow-hidden ">
+          <div className="bg-yellow-400 px-4 py-3 text-sm font-semibold flex justify-between items-center ">
+            <span>Chatbot</span>
+            <button
+              onClick={() => setChatOpen(false)}
+              className="text-black hover:cursor-pointer"
+            >
+              ✕
+            </button>
+          </div>
+          <div className="flex-1 p-4 overflow-y-auto text-sm">
+            <div className="mb-2">
+              <div className="bg-gray-200 p-2 rounded-lg inline-block">
+                Hi! I'm here to help you with mental health support. Whats on
+                your mind?
+              </div>
+            </div>
+          </div>
+          <div className="p-2 border-t border-gray-200">
+            <div className="flex items-center gap-2">
+              <input
+                type="text"
+                placeholder="Type a message..."
+                className="flex-1 px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-yellow-100"
+              />
+              <button className="bg-yellow-400 px-4 py-2 text-sm rounded-md hover:bg-yellow-300 transition">
+                →
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
