@@ -30,22 +30,19 @@ export const HOME = [
     {
       id: 1,
       title: "Understanding Anxiety",
-      description:
-        "Anxiety triggers include stress and social situations. Coping methods are deep breathing, exercise, and support.",
+      description: "Anxiety triggers include stress and social situations. Coping methods are deep breathing, exercise, and support.",
       image: "/src/assets/2.png",
     },
     {
       id: 2,
       title: "Workplace Mental Health",
-      description:
-        "Set clear boundaries, practice mindfulness, and manage stress. Prioritize work-life balance, foster supportive relationships, and use time management to maintain focus and resilience at work.",
+      description: "Set clear boundaries, practice mindfulness, and manage stress. Prioritize work-life balance, foster supportive relationships, and use time management to maintain focus and resilience at work.",
       image: "/src/assets/3.jpg",
     },
     {
       id: 3,
       title: "Building Resilience",
-      description:
-        "Develop emotional strength by practicing self-awareness, embracing challenges, maintaining a positive mindset, seeking support, setting goals, and learning from experiences to enhance adaptability and resilience.",
+      description: "Develop emotional strength by practicing self-awareness, embracing challenges, maintaining a positive mindset, seeking support, setting goals, and learning from experiences to enhance adaptability and resilience.",
       image: "/src/assets/4.jpg",
     },
   ];
@@ -55,6 +52,7 @@ export const blogsData = [
     {
       id: 1,
       title: "Understanding Anxiety",
+      description: "Anxiety triggers include stress and social situations. Coping methods are deep breathing, exercise, and support.",
       image: "/src/assets/2.png",
       by: "By Mental Wellness Team | Updated on [2025]",
       what: "What Is Anxiety?",

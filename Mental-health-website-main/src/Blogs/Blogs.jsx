@@ -53,41 +53,45 @@ const Blogs = () => {
 
         {/* API Fetched Blogs */}
         <div className="mt-10 px-2">
-          <h2 className="text-white text-2xl font-semibold mb-4">
-            Fetched Blogs
+          <h2 className="text-black text-2xl font-semibold mb-4">
+            Community Blogs
           </h2>
 
           {/* Show loading or error messages */}
-          {loading && <p className="text-blue-400">Loading blogs...</p>}
-          {error && <p className="text-red-400">{error.message}</p>}
+          {loading && <p className="text-blue-600">Loading blogs...</p>}
+          {error && <p className="text-red-600">Error loading blogs: {error.message}</p>}
 
           {/* Display fetched posts */}
-          {posts.map((post, index) => (
-            <div
-              key={index}
-              className="bg-white text-black rounded-lg shadow-md p-4 mb-6"
-            >
-              <p className="font-bold">ID: {post.id}</p>
-              <p className="font-semibold">Title: {post.title}</p>
-              <p className="mb-2">Content: {post.content}</p>
+          {posts && posts.length > 0 ? (
+            posts.map((post, index) => (
+              <div
+                key={post.id || index}
+                className="bg-white text-black rounded-lg shadow-md p-4 mb-6"
+              >
+                <p className="font-bold">ID: {post.id}</p>
+                <p className="font-semibold">Title: {post.title}</p>
+                <p className="mb-2">Content: {post.content}</p>
 
-              {/* Images from API post */}
-              {post.image && post.image.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {post.image.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={`http://localhost:3000/${img}`}
-                      alt={`Post ${post.id}`}
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                  ))}
-                </div>
-              ) : (
-                <p className="text-sm text-gray-500">No Image Available</p>
-              )}
-            </div>
-          ))}
+                {/* Images from API post */}
+                {post.image && post.image.length > 0 ? (
+                  <div className="flex flex-wrap gap-2">
+                    {post.image.map((img, idx) => (
+                      <img
+                        key={idx}
+                        src={`http://localhost:3000/${img}`}
+                        alt={`Post ${post.id}`}
+                        className="w-20 h-20 object-cover rounded"
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500">No Image Available</p>
+                )}
+              </div>
+            ))
+          ) : (
+            !loading && <p className="text-gray-600">No community blogs available.</p>
+          )}
         </div>
 
         {/* Create Blog Button */}
