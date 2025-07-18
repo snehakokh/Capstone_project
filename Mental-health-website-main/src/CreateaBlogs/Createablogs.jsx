@@ -3,17 +3,19 @@ import { useForm } from "react-hook-form";
 import { useDropzone } from "react-dropzone";
 import { FaBold, FaItalic } from "react-icons/fa";
 import { TfiAlignLeft, TfiAlignCenter, TfiAlignRight } from "react-icons/tfi";
+import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { http } from "../config/Axios";
 
 const Createablog = () => {
-  // React Hook Form setup
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  // Refs & State
+  const navigate = useNavigate();
   const contentRef = useRef(null);
   const [tags, setTags] = useState([]);
   const [images, setImages] = useState([]);
@@ -21,7 +23,6 @@ const Createablog = () => {
   const [showAllTags, setShowAllTags] = useState(false);
   const [contentError, setContentError] = useState("");
 
-  // Available tags
   const allTags = [
     "Anxiety",
     "Depression",
@@ -34,13 +35,19 @@ const Createablog = () => {
   ];
   const topTags = allTags.slice(0, 3);
 
-  // Insert tag into content area
   const handleTagInsert = (tag) => {
+    const contentEl = contentRef.current;
+    const existingText = contentEl.innerText;
+
+    if (existingText.includes(`#${tag}`)) {
+      toast.info(`#${tag} is already added.`);
+      return;
+    }
+
     if (!tags.includes(tag)) {
       setTags((prev) => [...prev, tag]);
     }
 
-    const contentEl = contentRef.current;
     contentEl.focus();
 
     const selection = window.getSelection();
@@ -52,23 +59,21 @@ const Createablog = () => {
     tagNode.style.color = "blue";
     range.insertNode(tagNode);
 
-    // Move cursor after tag
     range.setStartAfter(tagNode);
     selection.removeAllRanges();
     selection.addRange(range);
   };
 
-  // Text formatting using contentEditable
   const formatText = (command) => {
     contentRef.current.focus();
     document.execCommand(command);
   };
 
-  // Handle file upload
   const onDrop = useCallback((files) => {
     const withPreview = files.map((file) => ({
       ...file,
       preview: URL.createObjectURL(file),
+      raw: file, // store original file for API
     }));
     setImages((prev) => [...prev, ...withPreview]);
   }, []);
@@ -85,23 +90,26 @@ const Createablog = () => {
     setImages((prev) => prev.filter((img) => img !== file));
   };
 
-  // Form submission
   const onSubmit = (formData) => {
     const contentText = contentRef.current?.innerText.trim();
     if (!contentText) {
       setContentError("Content is required.");
       return;
     } else {
-      setContentError(""); // Clear error if valid
+      setContentError("");
     }
 
     const payload = new FormData();
     payload.append("title", formData.title);
     payload.append("content", contentRef.current.innerHTML);
 
+    // Append tags as JSON string
+    payload.append("tags", JSON.stringify(tags));
+
+    // Append images
     images
       .filter((img) => !cancelled.has(img))
-      .forEach((img) => payload.append("images", img));
+      .forEach((img) => payload.append("images", img.raw));
 
     sendToApi(payload);
   };
@@ -109,19 +117,31 @@ const Createablog = () => {
   const sendToApi = async (data) => {
     try {
       const res = await http.post("/post", data);
-      console.log("Blog posted:", res.data);
+
+      if (res.status === 200 || res.status === 201) {
+        toast.success("Blog posted successfully!");
+        setTimeout(() => navigate("/blogs"), 1500);
+      } else {
+        console.error("Unexpected response:", res);
+        toast.error("Failed to post blog. Try again.");
+      }
     } catch (err) {
       console.error("Upload failed:", err);
+      if (err.response?.data?.message) {
+        toast.error(`Error: ${err.response.data.message}`);
+      } else {
+        toast.error("Failed to post blog. Please try again later.");
+      }
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#bcccdc] flex justify-center items-center p-4 mt-[56px]  ">
+    <div className="min-h-screen bg-[#bcccdc] flex justify-center items-center p-4 mt-[56px]">
+      <ToastContainer />
       <form
         onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-xl bg-white p-6 rounded-lg shadow"
       >
-        {/* Title Field */}
         <label className="block mb-2 font-semibold">Title</label>
         <input
           {...register("title", { required: "Title is required" })}
@@ -132,7 +152,6 @@ const Createablog = () => {
           <p className="text-sm text-red-500">{errors.title.message}</p>
         )}
 
-        {/* Image Upload */}
         <label className="block mt-4 mb-2 font-semibold">
           Upload Images (Optional)
         </label>
@@ -148,7 +167,6 @@ const Createablog = () => {
             : "Drag & drop or click to select images"}
         </div>
 
-        {/* Image Preview */}
         {images.length > 0 && (
           <div className="grid grid-cols-4 gap-2 mt-3">
             {images.map((img, idx) => (
@@ -170,7 +188,6 @@ const Createablog = () => {
           </div>
         )}
 
-        {/* Content Field */}
         <label className="block mt-4 mb-2 font-semibold">Content</label>
         <div
           ref={contentRef}
@@ -180,7 +197,6 @@ const Createablog = () => {
         />
         {contentError && <p className="text-sm text-red-500">{contentError}</p>}
 
-        {/* Formatting Buttons */}
         <div className="flex gap-3 text-lg mt-2 mb-4">
           <button
             className="hover:cursor-pointer"
@@ -219,7 +235,6 @@ const Createablog = () => {
           </button>
         </div>
 
-        {/* Tags */}
         <label className="block font-semibold mb-2">Tags</label>
         <div className="flex flex-wrap gap-2 mb-3">
           {topTags.map((tag) => (
@@ -245,7 +260,6 @@ const Createablog = () => {
           </button>
         </div>
 
-        {/* Tag Modal */}
         {showAllTags && (
           <div className="fixed inset-0 bg-opacity-40 flex items-center justify-center z-50">
             <div className="bg-white p-6 rounded shadow-lg max-w-md w-full">
@@ -275,7 +289,6 @@ const Createablog = () => {
           </div>
         )}
 
-        {/* Submit Button */}
         <button
           type="submit"
           className="mt-6 w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"

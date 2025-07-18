@@ -61,6 +61,7 @@ const Signup = () => {
           onSubmit={handleSubmit(sendDataToApi)}
           className="flex flex-col w-full gap-3 mt-6"
         >
+          {/* Username */}
           <Input
             type="text"
             className="border rounded-[10px] w-full h-[40px] p-2"
@@ -76,6 +77,7 @@ const Signup = () => {
             </span>
           )}
 
+          {/* Email */}
           <Input
             type="email"
             className="border rounded-[10px] w-full h-[40px] p-2"
@@ -93,6 +95,7 @@ const Signup = () => {
             <span className="text-red-500 text-sm">{errors.email.message}</span>
           )}
 
+          {/* Password */}
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
@@ -121,6 +124,7 @@ const Signup = () => {
             </span>
           )}
 
+          {/* Signup Button */}
           <button
             type="submit"
             className="bg-[#f6ca56] mt-6 w-full h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300"
@@ -129,6 +133,7 @@ const Signup = () => {
           </button>
         </form>
 
+        {/* Link to Login */}
         <p className="text-sm text-[#828d98] mt-5">
           Already have an account?{" "}
           <Link className="text-black font-semibold" to="/login">
@@ -138,8 +143,10 @@ const Signup = () => {
 
         <hr className="w-full border-black mt-8 border-[1px]" />
 
-        <button className="bg-[#f6ca56] mt-5 w-full h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300">
-          Continue with Google
+        {/* Continue with Google Button */}
+        <button className="flex items-center justify-center gap-3 bg-[#f6ca56] mt-5 w-full h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300">
+          Continue with{" "}
+          <img src="google.webp" alt="Google" className="w-5 h-5" />
         </button>
       </div>
     </div>

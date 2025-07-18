@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { blogsData } from "../Data/Data";
 import usefetch from "../hook/usefetch"; // Custom hook to fetch API data
 
 const Blogs = () => {
@@ -12,7 +11,7 @@ const Blogs = () => {
   };
 
   const gotoCreatePost = () => {
-    navigate("/createablogs");
+    navigate("/createablog");
   };
 
   // Use the custom hook to get posts from an API
@@ -25,69 +24,51 @@ const Blogs = () => {
         <h1 className="text-4xl font-bold text-center mb-10">BLOGS</h1>
         <p className="text-xl mb-6 ml-4">Top articles</p>
 
-        {/* Static Blog Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {blogsData.map((blog) => (
-            <div
-              key={blog.id}
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition p-4"
-            >
-              <img
-                src={blog.image}
-                alt={blog.title}
-                className="w-full h-48 object-cover rounded-lg mb-4"
-              />
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                {blog.title}
-              </h3>
-              <p className="text-gray-600 mb-4 text-sm">{blog.description}</p>
-              <button
-                onClick={() => handleReadmore(blog.id)}
-                className="text-blue-600 hover:underline text-sm"
-              >
-                Read more →
-              </button>
-            </div>
-          ))}
-        </div>
+        {/* Removed Static Blog Cards (Sample Blogs) */}
 
         {/* API Fetched Blogs */}
         <div className="mt-10 px-2">
-          <h2 className="text-white text-2xl font-semibold mb-4">
-            Fetched Blogs
+          <h2 className="text-black text-2xl font-semibold mb-4">
+            Community Blogs
           </h2>
 
           {/* Show loading or error messages */}
-          {loading && <p className="text-blue-400">Loading blogs...</p>}
-          {error && <p className="text-red-400">{error.message}</p>}
+          {loading && <p className="text-blue-600">Loading blogs...</p>}
+          {error && (
+            <p className="text-red-600">Error loading blogs: {error.message}</p>
+          )}
 
           {/* Display fetched posts */}
-          {posts.map((post, index) => (
-            <div
-              key={index}
-              className="bg-white text-black rounded-lg shadow-md p-4 mb-6"
-            >
-              <p className="font-bold">ID: {post.id}</p>
-              <p className="font-semibold">Title: {post.title}</p>
-              <p className="mb-2">Content: {post.content}</p>
+          {posts && posts.length > 0
+            ? posts.map((post, index) => (
+                <div
+                  key={post.id || index}
+                  className="bg-white text-black rounded-lg shadow-md p-4 mb-6"
+                >
+                  <p className="font-bold">ID: {post.id}</p>
+                  <p className="font-semibold">Title: {post.title}</p>
+                  <p className="mb-2">Content: {post.content}</p>
 
-              {/* Images from API post */}
-              {post.image && post.image.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {post.image.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={`http://localhost:3000/${img}`}
-                      alt={`Post ${post.id}`}
-                      className="w-20 h-20 object-cover rounded"
-                    />
-                  ))}
+                  {/* Images from API post */}
+                  {post.image && post.image.length > 0 ? (
+                    <div className="flex flex-wrap gap-2">
+                      {post.image.map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={`http://localhost:3000/${img}`}
+                          alt={`Post ${post.id}`}
+                          className="w-20 h-20 object-cover rounded"
+                        />
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-sm text-gray-500">No Image Available</p>
+                  )}
                 </div>
-              ) : (
-                <p className="text-sm text-gray-500">No Image Available</p>
+              ))
+            : !loading && (
+                <p className="text-gray-600">No community blogs available.</p>
               )}
-            </div>
-          ))}
         </div>
 
         {/* Create Blog Button */}

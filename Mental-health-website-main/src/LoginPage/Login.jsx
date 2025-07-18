@@ -102,8 +102,9 @@ const Login = () => {
           </Link>
         </p>
         <hr className="w-[340px] border-black mt-5 border-[1px]" />
-        <button className="bg-[#f6ca56] mt-5 w-[300px] h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300">
-          Continue with Google
+        <button className="flex items-center justify-center gap-3 bg-[#f6ca56] mt-5 w-full h-[40px] rounded-[10px] text-black px-4 py-2 hover:bg-amber-300 hover:shadow-lg transition duration-300">
+          Continue with{" "}
+          <img src="google.webp" alt="Google" className="w-5 h-5" />
         </button>
         <a href="/forgotPw" className="font-bold hover:underline mt-5">
           Forgot password?

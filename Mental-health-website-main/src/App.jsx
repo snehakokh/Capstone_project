@@ -50,7 +50,7 @@ function App() {
 
         <Route path="/ai" element={<Ai />} />
         <Route path="/readmore/:id" element={<Readmore />} />
-        <Route path="/createablogs" element={<Createablog />} />
+        <Route path="/createablog" element={<Createablog />} />
         <Route path="/userview/:id" element={<Userview />} />
         <Route path="/userprofile/:id" element={<Userprofile />} />
         <Route path="/profilepage/:id" element={<ProfilePage />} />
